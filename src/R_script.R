@@ -1,4 +1,4 @@
-setwd("C:/R/Esperimenti/2026/GIT_nomenclatura/nomenclatura/")
+setwd("") #insert the path of the downloaded folder
 
 library(readxl)
 library(dplyr)
@@ -405,14 +405,14 @@ ggplot(na_df, aes(x = 2, y = na_pct, fill = service)) +
 
 ##########dataset_export##########
 
-write.xlsx(checklist_norm, file = "Cleaned.xlsx", rowNames = FALSE)
+#write.xlsx(checklist_norm, file = "Cleaned.xlsx", rowNames = FALSE)
 
 ###########other_list#####
 
-checklist_GPT <- read_excel("data/official/test_species_100_more_errors.xlsx")
-checklist_asturias <- read_excel("data/official/catalogo-asturias.xlsx")
-checklist_iNaturalist <- read_excel("data/official/iNaturalist.xlsx")
-checklist_Anna <- read_excel("data/official/Metadata_and_checklist.xlsx")
+checklist_GPT <- read_excel("data/test_species_100_more_errors.xlsx")
+checklist_asturias <- read_excel("data/catalogo-asturias.xlsx")
+checklist_iNaturalist <- read_excel("data/iNaturalist.xlsx")
+checklist_Anna <- read_excel("data/Metadata_and_checklist.xlsx")
 
 process_with_tnrs <- function(df, species_col, source = "wcvp") {
   df2 <- df %>%
@@ -436,7 +436,7 @@ checklists <- list(
   Anna       = list(df = checklist_Anna,       species_col = "Species_name")
 )
 
-dir.create("output", showWarnings = FALSE)
+#dir.create("output", showWarnings = FALSE)
 
 results_tnrs <- mapply(
   FUN = function(x, nm) {
@@ -450,6 +450,7 @@ results_tnrs <- mapply(
   nm  = names(checklists),
   SIMPLIFY = FALSE
 )
+
 
 
 
