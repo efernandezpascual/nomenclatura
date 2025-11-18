@@ -1,5 +1,20 @@
 setwd("") #insert the path of the downloaded folder
 
+# packages_needed <- c(
+#   "dplyr", "tibble", "stringr", "tidyr", "purrr",
+#   "readxl", "openxlsx",
+#   "TNRS", "flora", "rgbif",
+#   "ggplot2", "scales",
+#   "curl", "httr", "jsonlite"
+# )
+# 
+# packages_to_install <- packages_needed[!(packages_needed %in% installed.packages()[,"Package"])]
+# 
+# if(length(packages_to_install) > 0){
+#   install.packages(packages_to_install)
+# }
+
+
 library(readxl)
 library(dplyr)
 library(stringr)
@@ -450,6 +465,7 @@ results_tnrs <- mapply(
   nm  = names(checklists),
   SIMPLIFY = FALSE
 )
+
 
 
 
