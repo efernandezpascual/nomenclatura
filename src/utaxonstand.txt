@@ -1,0 +1,9 @@
+# library(U.Taxonstand)
+# 
+# load(file = "data/Plants_WCVP.RData")
+# 
+# original %>%
+#   pull(Species_name) %>%
+#   unique -> sps
+# 
+# nameMatch(spList = sps, spSource = database, author = TRUE, max.distance = 1) -> resolved

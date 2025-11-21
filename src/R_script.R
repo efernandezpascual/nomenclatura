@@ -1,4 +1,4 @@
-setwd("") #insert the path of the downloaded folder
+# setwd("") #insert the path of the downloaded folder
 
 # packages_needed <- c(
 #   "dplyr", "tibble", "stringr", "tidyr", "purrr",
@@ -35,7 +35,7 @@ clean_name <- function(x) {
     str_replace_all("(?i)\\b(cf|aff|nr|sp|spp|group|gr)\\.?\\b", "") %>%
     str_replace_all("[?]", "") %>%
     str_squish()
-}
+} # Clean names of common things such as sp., etc.
 
 
 ####tnrs_powo###########
@@ -297,7 +297,7 @@ scores_long <- comparison %>%
   select(cleaned_name,
          tnrs_score = tnrs_score_norm,
          gbif_score = gbif_score_norm) %>%
-  pivot_longer(cols = c(tnrs_score, gbif_score),
+  tidyr::pivot_longer(cols = c(tnrs_score, gbif_score),
                names_to = "service",
                values_to = "score")
 
@@ -319,38 +319,38 @@ library(ggplot2)
 library(tidyr)
 
 # long format per ggplot
-df_long <- comparison %>%
-  select(cleaned_name, gold, tnrs, gbif) %>%
-  pivot_longer(cols = c(tnrs, gbif),
-               names_to = "service",
-               values_to = "matched") %>%
-  mutate(correct = matched == gold)
+# df_long <- comparison %>%
+#   select(cleaned_name, gold, tnrs, gbif) %>%
+#   pivot_longer(cols = c(tnrs, gbif),
+#                names_to = "service",
+#                values_to = "matched") %>%
+#   mutate(correct = matched == gold)
 
-accuracy_table <- df_long %>%
-  group_by(service) %>%
-  summarise(accuracy = mean(correct, na.rm = TRUE))
+# accuracy_table <- df_long %>%
+#   group_by(service) %>%
+#   summarise(accuracy = mean(correct, na.rm = TRUE))
 
-ggplot(accuracy_table, aes(x = service, y = accuracy, fill = service)) +
-  geom_col() +
-  scale_y_continuous(labels = scales::percent_format()) +
-  labs(title = "Accuracy of TNRS vs GBIF",
-       x = "Service",
-       y = "Accuracy (%)") +
-  theme_minimal()
+# ggplot(accuracy_table, aes(x = service, y = accuracy, fill = service)) +
+#   geom_col() +
+#   scale_y_continuous(labels = scales::percent_format()) +
+#   labs(title = "Accuracy of TNRS vs GBIF",
+#        x = "Service",
+#        y = "Accuracy (%)") +
+#   theme_minimal()
 
-
-
-unresolved_table <- df_long %>%
-  group_by(service) %>%
-  summarise(unresolved = mean(is.na(matched)))
-
-ggplot(unresolved_table, aes(x = service, y = unresolved, fill = service)) +
-  geom_col() +
-  scale_y_continuous(labels = scales::percent_format()) +
-  labs(title = "UNRESOLVED for service",
-       x = "Service",
-       y = "Unresolved (%)") +
-  theme_minimal()
+# 
+# 
+# unresolved_table <- df_long %>%
+#   group_by(service) %>%
+#   summarise(unresolved = mean(is.na(matched)))
+# 
+# ggplot(unresolved_table, aes(x = service, y = unresolved, fill = service)) +
+#   geom_col() +
+#   scale_y_continuous(labels = scales::percent_format()) +
+#   labs(title = "UNRESOLVED for service",
+#        x = "Service",
+#        y = "Unresolved (%)") +
+#   theme_minimal()
 
 
 ggplot(scores_long, aes(service, score, fill = service)) +
