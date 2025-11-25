@@ -65,3 +65,12 @@ siguiente referencia:
 > nomenclatural en R y validación taxonómica a partir de bases de datos
 > botánicas*. Taller del VI Simposio de Botánica Española, 28-30 de
 > noviembre de 2025, Mieres, Asturias.
+
+------------------------------------------------------------------------
+
+<center>
+
+<a href="https://www.uniovi.es/en/inicio"><img src="figures/uniovi.png" height = 70 title="University of Oviedo"/></a>
+<a href="https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon"><img src="figures/jba.jpg" height = 70 title="Atlantic Botanic Gardens"/></a>
+
+</center>
