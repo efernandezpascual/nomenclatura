@@ -3,7 +3,7 @@ README.md
 
 <center>
 
-<img src="figures/simposio.png" style="height:50.0%" />
+<a href="https://www.simsebot.org/sexto-simposio.html/"><img src="figures/simposio.png" height = 70 title="VI Simposio"/></a>
 
 </center>
 
@@ -11,13 +11,14 @@ README.md
 
 *Luis Carlón, Eduardo Fernández Pascual, Giacomo Trotta*
 
-Este repositorio contiene los materiales del taller *Estandarización
+Este repositorio contiene los materiales del taller [*Estandarización
 nomenclatural en R y validación taxonómica a partir de bases de datos
-botánicas*, que se celebró el 28 de noviembre de 2025 como parte de las
-actividades del **VI Simposio de Botánica Española** organizado en
-Mieres por la Sociedad Botánica Española (SEBOT) y la Universidad de
-Oviedo, con la colaboración del Jardín Botánico Atlántico de Gijón/Xixón
-y el Ayuntamiento de Mieres.
+botánicas*](https://www.simsebot.org/sexto-simposio.html), que se
+celebró el 28 de noviembre de 2025 como parte de las actividades del
+**VI Simposio de Botánica Española** organizado en Mieres por la
+Sociedad Botánica Española (SEBOT) y la Universidad de Oviedo, con la
+colaboración del Jardín Botánico Atlántico de Gijón/Xixón y el
+Ayuntamiento de Mieres.
 
 # Contenidos del repositorio
 
@@ -73,6 +74,6 @@ siguiente referencia:
 <a href="https://www.sebot.org/"><img src="figures/sebot.png" height = 70 title="SEBOT"/></a>
 <a href="https://www.uniovi.es/en/inicio"><img src="figures/uniovi.png" height = 70 title="University of Oviedo"/></a>
 <a href="https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon"><img src="figures/jba.jpg" height = 70 title="JBA"/></a>
-<a href="https://www.mieres.es/"><img src="figures/mieres.jpg" height = 70 title="Ayuntamiento de Mieres"/></a>
+<a href="https://www.mieres.es/"><img src="figures/mieres.jpeg" height = 70 title="Ayuntamiento de Mieres"/></a>
 
 </center>
