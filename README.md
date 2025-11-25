@@ -70,7 +70,9 @@ siguiente referencia:
 
 <center>
 
+<a href="https://www.sebot.org/"><img src="figures/sebot.png" height = 70 title="SEBOT"/></a>
 <a href="https://www.uniovi.es/en/inicio"><img src="figures/uniovi.png" height = 70 title="University of Oviedo"/></a>
-<a href="https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon"><img src="figures/jba.jpg" height = 70 title="Atlantic Botanic Gardens"/></a>
+<a href="https://www.gijon.es/es/directorio/jardin-botanico-atlantico-de-gijon"><img src="figures/jba.jpg" height = 70 title="JBA"/></a>
+<a href="https://www.mieres.es/"><img src="figures/mieres.jpg" height = 70 title="Ayuntamiento de Mieres"/></a>
 
 </center>
