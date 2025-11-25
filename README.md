@@ -1,7 +1,7 @@
 README.md
 ================
 
-![](figures/simposio.PNG)
+![](figures/simposio.png)
 
 # Estandarización nomenclatural en R y validación taxonómica a partir de bases de datos botánicas
 
