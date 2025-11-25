@@ -448,6 +448,23 @@ results_tnrs <- mapply(
 
 
 
+######utaxonstand#######
+#bonus
+# github (requires `remotes` or `devtools`)
+devtools::install_github("ecoinfor/U.Taxonstand")
+library(U.Taxonstand)
+
+load(file = "data/Taxon_Data/Plants_WCVP.rdata")
+
+checklist %>%
+  pull(cleaned_name) %>%
+  unique -> sps
+
+
+res <- nameMatch(spList = sps, spSource = database, author = TRUE, max.distance = 1) -> resolved
+
+
+
 
 
 
