@@ -2,38 +2,34 @@ Estandarización nomenclatural en R y validación taxonómica a partir de
 bases de datos botánicas
 ================
 
-# 1 Bloque 1: Introducción y fundamentos
+# 1 Introducción y fundamentos
 
-- Nomenclatura vs. taxonomía
-- La importancia de la autorías
 - ¿Por qué estandarizar nombres científicos?
-- Problemas comunes en listas florísticas y ecológicas
-- Principales bases de datos: POWO, WFO, GBIF, Tropicos, IPNI
-- Tipos de errores: ortografía, sinónimos, autores, híbridos
+- Nomenclatura vs. taxonomía
+- Conceptos básicos de nomenclatura botánica
+- Tipos de sinónimos
+- La importancia de las autorías
 
-# 2 Bloque 2: Herramientas en R para validación taxonómica
+# 2 Herramientas en R para validación taxonómica
 
 Introducción a paquetes clave:
 
-- taxize
-- Taxonstand
-- flora
-- rgbif
 - TNRS
+- rgbif
+- flora
+- U.Taxonstand
 
 Introducción al repositorio / GitHub
 
 # 3 Pausa breve
 
-# 4 Bloque 3: Ejercicio práctico guiado
+# 4 Ejercicio práctico guiado
 
-- Carga y limpieza de listas de ejemplos (lista de campo, revisión
-  bibliográfica, unión catálogos)
-- Validación con varios paquetes
-- Resolución de sinónimos y nombres aceptados
-- Comparación de resultados
-- Exportación de resultados y trazabilidad
+- Funciones de limpieza y uso de los paquetes
+- Comparación TNRS y GBIF
+- Casos de ejemplo: lista de campo, catálogo, meta-analysis
+- Revisión de los outputs
 
-# 5 Bloque 4: Discusión y casos reales
+# 5 Discusión y casos reales
 
 - Espacio para dudas y discusión de casos de los participantes

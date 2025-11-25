@@ -14,15 +14,13 @@
 # }
 
 
-library(readxl)
+
 library(dplyr)
 library(stringr)
-library(openxlsx)
 
 
-#checklist <- read_excel("data/lista-campo.xlsx")
 
-checklist <- read.csv("data/official_csv/lista-campo.csv", sep = ";", stringsAsFactors = FALSE)
+checklist <- read.csv("data/lista-campo.csv", sep = ";", stringsAsFactors = FALSE)
 
 
 names(checklist) #Here we work with a column named "Species_name"
@@ -88,96 +86,7 @@ standardize_names_powo <- function(x,
 }
 
 
-#####flora###############
-library(flora)
-library(dplyr)
-library(purrr)
-library(tibble)
-library(stringr)
 
-standardize_names_flora <- function(x) {
-  
-  df_in <- tibble(
-    original_name = x,               # Store original names
-    cleaned_name  = clean_name(x)    # Clean and normalize names
-  )
-  
-  # Identify names that are non-empty and start with a letter
-  valid_mask  <- !is.na(df_in$cleaned_name) &
-    grepl("^[A-Za-z]", df_in$cleaned_name)
-  
-  # Unique valid names to query
-  valid_names <- unique(df_in$cleaned_name[valid_mask])
-  
-  # If no valid names, return empty structured output
-  if (length(valid_names) == 0) {
-    return(
-      df_in %>%
-        mutate(
-          matched_name      = NA_character_,   # No match
-          accepted_name     = NA_character_,   # No accepted name
-          family            = NA_character_,   # No family info
-          taxonomic_status  = NA_character_    # No taxonomic status
-        )
-    )
-  }
-  
-  # Safe wrapper around flora::get.taxa to avoid breaking on errors
-  safe_get_taxa <- function(nm_vec) {
-    tryCatch(
-      flora::get.taxa(
-        taxa             = nm_vec,
-        replace.synonyms = TRUE,    # Replace synonyms with accepted names
-        suggest.names    = TRUE     # Suggest close matches
-      ),
-      error = function(e) {
-        warning("flora::get.taxa error: ", e$message)
-        tibble(                             # Return fallback tibble
-          taxon           = nm_vec,
-          scientific.name = NA_character_,
-          accepted.name   = NA_character_,
-          family          = NA_character_,
-          taxon.status    = NA_character_
-        )
-      }
-    )
-  }
-  
-  flora_raw <- safe_get_taxa(valid_names)    # Query Brazilian Flora
-  
-  # Detect which column contains the submitted name
-  name_col <- dplyr::case_when(
-    "taxon"           %in% names(flora_raw) ~ "taxon",
-    "scientific.name" %in% names(flora_raw) ~ "scientific.name",
-    TRUE ~ ""                               # No valid column found
-  )
-  
-  if (name_col == "") {
-    stop("not able to find taxon or scientific name")   # Fail if structure unexpected
-  }
-  
-  flora_raw <- flora_raw %>%
-    mutate(submitted = .data[[name_col]])   # Create a unified submitted-name column
-  
-  flora_best <- flora_raw[!duplicated(flora_raw$submitted), ]  # Keep first match per name
-  
-  # Join flora results back to the original input order
-  df_out <- df_in %>%
-    left_join(
-      flora_best,
-      by = c("cleaned_name" = "submitted")
-    ) %>%
-    transmute(
-      original_name,                         # Original input name
-      cleaned_name,                          # Normalized name used for matching
-      matched_name     = scientific.name,    # Name matched by Flora
-      accepted_name    = accepted.name,      # Accepted name according to Flora
-      family           = family,             # Family information
-      taxonomic_status = taxon.status        # Taxonomic status from Flora
-    )
-  
-  df_out
-}
 
 
 ######rgbif################
@@ -380,10 +289,10 @@ write.csv(checklist_norm, file = "output/Campo_full.csv", row.names = FALSE)
 
 ###########other_list#####
 
-checklist_GPT <-  read.csv("data/official_csv/test_species_100.csv", sep = ";", stringsAsFactors = FALSE)
-checklist_asturias <- read.csv("data/official_csv/catalogo-asturias.csv", sep = ";", stringsAsFactors = FALSE)
-checklist_iNaturalist <- read.csv("data/official_csv/iNaturalist.csv", sep = ";", stringsAsFactors = FALSE)
-checklist_Anna <- read.csv("data/official_csv/Metadata_and_checklist.csv", sep = ";", stringsAsFactors = FALSE)
+checklist_GPT <-  read.csv("data/test_species_100.csv", sep = ";", stringsAsFactors = FALSE)
+checklist_asturias <- read.csv("data/catalogo-asturias.csv", sep = ";", stringsAsFactors = FALSE)
+checklist_iNaturalist <- read.csv("data/iNaturalist.csv", sep = ";", stringsAsFactors = FALSE)
+checklist_Anna <- read.csv("data/Metadata_and_checklist.csv", sep = ";", stringsAsFactors = FALSE)
 
 # Function to standardize species names in a dataframe using TNRS (POWO)
 process_with_tnrs <- function(df, species_col, source = "wcvp") {
@@ -463,7 +372,96 @@ checklist %>%
 
 res <- nameMatch(spList = sps, spSource = database, author = TRUE, max.distance = 1) -> resolved
 
+#####flora###############
+library(flora)
+library(dplyr)
+library(purrr)
+library(tibble)
+library(stringr)
 
+standardize_names_flora <- function(x) {
+  
+  df_in <- tibble(
+    original_name = x,               # Store original names
+    cleaned_name  = clean_name(x)    # Clean and normalize names
+  )
+  
+  # Identify names that are non-empty and start with a letter
+  valid_mask  <- !is.na(df_in$cleaned_name) &
+    grepl("^[A-Za-z]", df_in$cleaned_name)
+  
+  # Unique valid names to query
+  valid_names <- unique(df_in$cleaned_name[valid_mask])
+  
+  # If no valid names, return empty structured output
+  if (length(valid_names) == 0) {
+    return(
+      df_in %>%
+        mutate(
+          matched_name      = NA_character_,   # No match
+          accepted_name     = NA_character_,   # No accepted name
+          family            = NA_character_,   # No family info
+          taxonomic_status  = NA_character_    # No taxonomic status
+        )
+    )
+  }
+  
+  # Safe wrapper around flora::get.taxa to avoid breaking on errors
+  safe_get_taxa <- function(nm_vec) {
+    tryCatch(
+      flora::get.taxa(
+        taxa             = nm_vec,
+        replace.synonyms = TRUE,    # Replace synonyms with accepted names
+        suggest.names    = TRUE     # Suggest close matches
+      ),
+      error = function(e) {
+        warning("flora::get.taxa error: ", e$message)
+        tibble(                             # Return fallback tibble
+          taxon           = nm_vec,
+          scientific.name = NA_character_,
+          accepted.name   = NA_character_,
+          family          = NA_character_,
+          taxon.status    = NA_character_
+        )
+      }
+    )
+  }
+  
+  flora_raw <- safe_get_taxa(valid_names)    # Query Brazilian Flora
+  
+  # Detect which column contains the submitted name
+  name_col <- dplyr::case_when(
+    "taxon"           %in% names(flora_raw) ~ "taxon",
+    "scientific.name" %in% names(flora_raw) ~ "scientific.name",
+    TRUE ~ ""                               # No valid column found
+  )
+  
+  if (name_col == "") {
+    stop("not able to find taxon or scientific name")   # Fail if structure unexpected
+  }
+  
+  flora_raw <- flora_raw %>%
+    mutate(submitted = .data[[name_col]])   # Create a unified submitted-name column
+  
+  flora_best <- flora_raw[!duplicated(flora_raw$submitted), ]  # Keep first match per name
+  
+  # Join flora results back to the original input order
+  df_out <- df_in %>%
+    left_join(
+      flora_best,
+      by = c("cleaned_name" = "submitted")
+    ) %>%
+    transmute(
+      original_name,                         # Original input name
+      cleaned_name,                          # Normalized name used for matching
+      matched_name     = scientific.name,    # Name matched by Flora
+      accepted_name    = accepted.name,      # Accepted name according to Flora
+      family           = family,             # Family information
+      taxonomic_status = taxon.status        # Taxonomic status from Flora
+    )
+  
+  df_out
+}
 
 
 
