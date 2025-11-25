@@ -1,6 +1,8 @@
 README.md
 ================
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17713969.svg)](https://doi.org/10.5281/zenodo.17713969)
+
 <div align="center">
 
 <a href="https://www.simsebot.org/sexto-simposio.html/"><img src="figures/simposio.png" height = 200 title="VI Simposio"/></a>
@@ -66,6 +68,7 @@ siguiente referencia:
 > nomenclatural en R y validación taxonómica a partir de bases de datos
 > botánicas*. Taller del VI Simposio de Botánica Española, 28-30 de
 > noviembre de 2025, Mieres, Asturias.
+> <https://doi.org/10.5281/zenodo.17713969>
 
 ------------------------------------------------------------------------
 
