@@ -1,11 +1,11 @@
 README.md
 ================
 
-![](figures/simposio.JPG)
+![](figures/simposio.PNG)
 
 # Estandarización nomenclatural en R y validación taxonómica a partir de bases de datos botánicas
 
-*Luis Carlón, Giacomo Trotta & Eduardo Fernández Pascual*
+*Luis Carlón, Eduardo Fernández Pascual, Giacomo Trotta*
 
 Este repositorio contiene los materiales del taller *Estandarización
 nomenclatural en R y validación taxonómica a partir de bases de datos
@@ -28,7 +28,7 @@ durante el curso:
 
 # Programa del taller
 
-## Introducción y fundamentos
+## Bloque 1: Introducción y fundamentos
 
 - ¿Por qué estandarizar nombres científicos?
 - Nomenclatura vs. taxonomía
@@ -36,18 +36,28 @@ durante el curso:
 - Tipos de sinónimos
 - La importancia de las autorías
 
-## Herramientas en R para validación taxonómica
+## Bloque 2: Herramientas en R para validación taxonómica
 
 - Introducción a paquetes clave: TNRS, rgbif, flora, U.Taxonstand
 - Introducción al repositorio de GitHub y a los materiales del taller
 
-## Ejercicio práctico guiado
+## Bloque 3: Ejercicio práctico guiado
 
 - Funciones de limpieza y uso de los paquetes
 - Comparación de TNRS y rgbif
 - Casos de ejemplo: lista de campo, catálogo, meta-analysis
 - Revisión de los outputs: detección de errores de los paquetes
 
-## Discusión y casos reales
+## Bloque 4: Discusión y casos reales
 
 - Espacio para dudas y discusión de casos de los participantes
+
+# Cita
+
+Si deseas citar este taller y sus materiales, puedes utilizar la
+siguiente referencia:
+
+> Carlón L, Fernández-Pascual E, Trotta G (2025) *Estandarización
+> nomenclatural en R y validación taxonómica a partir de bases de datos
+> botánicas*. Taller del VI Simposio de Botánica Española, 28-30 de
+> noviembre de 2025, Mieres, Asturias.
