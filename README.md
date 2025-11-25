@@ -3,7 +3,8 @@ README.md
 
 <center>
 
-![](figures/simposio.png)
+<img src="figures/simposio.png" style="height:50.0%" />
+
 </center>
 
 # Estandarización nomenclatural en R y validación taxonómica a partir de bases de datos botánicas
