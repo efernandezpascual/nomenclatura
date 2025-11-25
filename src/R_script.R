@@ -13,18 +13,12 @@
 #   install.packages(packages_to_install)
 # }
 
-
-
 library(dplyr)
 library(stringr)
 
 
-
-checklist <- read.csv("data/lista-campo.csv", sep = ";", stringsAsFactors = FALSE)
-
-
+checklist <- read.csv("data/1_Campo.csv", sep = ";", fileEncoding = "ISO-8859-1", stringsAsFactors = FALSE)
 names(checklist) #Here we work with a column named "Species_name"
-
 
 clean_name <- function(x) {
   x %>%
@@ -89,7 +83,7 @@ standardize_names_powo <- function(x,
 
 
 
-######rgbif################
+#####rgbif################
 library(rgbif)
 library(dplyr)
 library(tibble)
@@ -142,15 +136,17 @@ standardize_names_rgbif <- function(x,
 }
 
 
-#######checklist_creation####################
+######checklist_creation####################
 checklist <- checklist %>%
   mutate(cleaned_name = clean_name(Species_name))
 
 unique_species_test <- unique(checklist$cleaned_name)
 
 tnrs_table_test    <- standardize_names_powo(unique_species_test)
-flora_table_test   <- standardize_names_flora(unique_species_test)
 rgbif_table_test   <- standardize_names_rgbif(unique_species_test)
+
+
+load("data/table_test.RData")
 
 tnrs_table_test <- tnrs_table_test %>%
   rename_with(~ paste0("tnrs_", .x), -cleaned_name)
@@ -158,21 +154,15 @@ tnrs_table_test <- tnrs_table_test %>%
 rgbif_table_test <- rgbif_table_test %>%
   rename_with(~ paste0("gbif_", .x), -cleaned_name)
 
-flora_table_test <- flora_table_test %>%
-  rename_with(~ paste0("flora_", .x), -cleaned_name)
 
 
 checklist_norm <- checklist %>%
-     left_join(tnrs_table_test, by = c("cleaned_name" = "cleaned_name"))
+  left_join(tnrs_table_test, by = c("cleaned_name" = "cleaned_name"))
 
 checklist_norm <- checklist_norm %>%
-     left_join(rgbif_table_test, by = c("cleaned_name" = "cleaned_name"))
+  left_join(rgbif_table_test, by = c("cleaned_name" = "cleaned_name"))
 
-checklist_norm <- checklist_norm %>%
-     left_join(flora_table_test, by = c("cleaned_name" = "cleaned_name"))
-
-
-########score####
+#######score####
 
 comparison <- checklist %>%
   select(cleaned_name) %>%                 # Keep only cleaned names
@@ -229,23 +219,17 @@ na_count <- comparison %>%
 
 
 
-#########visualization###########
+########visualization###########
 
 library(dplyr)
 library(ggplot2)
 library(tidyr)
 
-ggplot(scores_long, aes(service, score, fill = service)) +
-  geom_boxplot() +
-  labs(title = "Distribuzione degli score: TNRS vs GBIF",
-       x = "Servizio",
-       y = "Score") +
-  theme_minimal()
 
 ggplot(scores_long, aes(x = score, color = service)) +
   stat_ecdf(na.rm = TRUE) +
   labs(
-    title = "Robustezza degli score (ECDF)",
+    title = "Score distribution",
     x = "Score (0–1)",
     y = "F(x)"
   ) +
@@ -281,18 +265,17 @@ ggplot(na_df, aes(x = 2, y = na_pct, fill = service)) +
   labs(title = "Percentage of NA")
 
 
-##########dataset_export##########
+#########dataset_export##########
+checklist_norm <- checklist %>%
+  left_join(tnrs_table_test, by = c("cleaned_name" = "cleaned_name"))
 
-#write.xlsx(checklist_norm, file = "Cleaned.xlsx", rowNames = FALSE)
-write.csv(checklist_norm, file = "output/Campo_full.csv", row.names = FALSE)
+write.csv(checklist_norm, file = "results/1_Campo_TNRS.csv", row.names = FALSE)
 
 
-###########other_list#####
+##########other_list#####
 
-checklist_GPT <-  read.csv("data/test_species_100.csv", sep = ";", stringsAsFactors = FALSE)
-checklist_asturias <- read.csv("data/catalogo-asturias.csv", sep = ";", stringsAsFactors = FALSE)
-checklist_iNaturalist <- read.csv("data/iNaturalist.csv", sep = ";", stringsAsFactors = FALSE)
-checklist_Anna <- read.csv("data/Metadata_and_checklist.csv", sep = ";", stringsAsFactors = FALSE)
+checklist_catalogo <- read.csv("data/2_Catalogo.csv", sep = ";", stringsAsFactors = FALSE)
+checklist_metaanalyses <- read.csv("data/3_Metaanalyses.csv", sep = ";", stringsAsFactors = FALSE)
 
 # Function to standardize species names in a dataframe using TNRS (POWO)
 process_with_tnrs <- function(df, species_col, source = "wcvp") {
@@ -319,14 +302,12 @@ process_with_tnrs <- function(df, species_col, source = "wcvp") {
 
 # List of checklists to process, each with its dataframe and species column name
 checklists <- list(
-  GPT        = list(df = checklist_GPT,        species_col = "Species_name"),
-  Asturias   = list(df = checklist_asturias,   species_col = "Species_name"),
-  iNaturalist= list(df = checklist_iNaturalist,species_col = "Species_name"),
-  Anna       = list(df = checklist_Anna,       species_col = "Species_name")
+  "2_Catalogo"   = list(df = checklist_catalogo,   species_col = "Species_name"),
+  "3_Metaanalyses"       = list(df = checklist_metaanalyses,       species_col = "Species_name")
 )
 
 # Create output directory if it doesn't exist
-dir.create("output", showWarnings = FALSE)
+dir.create("results", showWarnings = FALSE)
 
 # Process each checklist and save results as CSV
 results_tnrs <- mapply(
@@ -357,13 +338,17 @@ results_tnrs <- mapply(
 
 
 
-######utaxonstand#######
-#bonus
+###########bonus######
+
+#U.Taxonstand
+
+#The Rdata in this case must be downloaded from https://mega.nz/file/WldRQZSC#zF1GYHbuucxNt2YrHSIvQgHsYOkvS2RqGmtARa0S-M4
+#The file must be in the folder named "data"
 # github (requires `remotes` or `devtools`)
 devtools::install_github("ecoinfor/U.Taxonstand")
 library(U.Taxonstand)
 
-load(file = "data/Taxon_Data/Plants_WCVP.rdata")
+load(file = "data/Plants_WCVP.rdata")
 
 checklist %>%
   pull(cleaned_name) %>%
@@ -372,7 +357,7 @@ checklist %>%
 
 res <- nameMatch(spList = sps, spSource = database, author = TRUE, max.distance = 1) -> resolved
 
-#####flora###############
+#flora
 library(flora)
 library(dplyr)
 library(purrr)
@@ -463,7 +448,7 @@ standardize_names_flora <- function(x) {
   df_out
 }
 
-
+flora_table_test   <- standardize_names_flora(unique_species_test)
 
 
 
