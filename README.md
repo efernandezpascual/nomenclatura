@@ -32,6 +32,7 @@ durante el curso:
 - `src` Código de `R` para realizar la limpieza y estandarización de
   datos.
 - `results` Output de los paquetes de estandarización.
+- `doc` Presentaciones utilizadas durante el taller.
 
 # Programa del taller
 
